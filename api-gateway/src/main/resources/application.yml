@@ -1,0 +1,42 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: offres-app
+         uri: lb://SERVICE-OFFRES
+         predicates:
+           - Path=/offres/**
+
+#       - id: service-document
+#         uri: lb://SERVICE-DOCUMENT
+#         predicates:
+#           - Path=/journals/**
+#           - Path=/demandeStages/**
+#           - Path=/lettres-afectation/**
+       - id: SERVICE-SIGNATURE
+         uri: lb://SERVICE-SIGNATURE
+         predicates:
+           - Path=/signatures/**
+       - id: SERVICE-STAGE
+         uri: lb://SERVICE-STAGE
+         predicates:
+           - Path=/stages/**
+       - id: SERVICE-SUIVIE-AVIS
+         uri: lb://SERVICE-SUIVIE-AVIS
+         predicates:
+           - Path=/suivies/**
+
+
+ application:
+   name: SWIGGY-GATEWAY
+
+ security:
+   oauth2:
+     resourceserver:
+       jwt:
+         issuer-uri: http://127.0.0.1:443/realms/Netanyahou
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://eureka-0.eureka.default.svc.cluster.local:8761/eureka

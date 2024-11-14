@@ -1,0 +1,54 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: my-cluster
+  namespace: default
+spec:
+  kafka:
+    version: 3.5.0
+    replicas: 3
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+      - name: external
+        port: 9094
+        type: nodeport
+        tls: false
+        # Additional configuration for NodePort
+        overrides:
+          bootstrap:
+            nodePort: 32100
+          brokers:
+          - broker: 0
+            nodePort: 32101
+          - broker: 1
+            nodePort: 32102
+          - broker: 2
+            nodePort: 32103
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      log.message.format.version: "2.8"
+    storage:
+      type: jbod
+      volumes:
+      - id: 0
+        type: persistent-claim
+        size: 100Mi
+        deleteClaim: false
+  zookeeper:
+    replicas: 3
+    storage:
+      type: persistent-claim
+      size: 100Mi
+      deleteClaim: false
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

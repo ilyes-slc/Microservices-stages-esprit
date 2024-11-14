@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service-document-app-service
+spec:
+  selector:
+    app: {{ .Release.Name }}-service-document-app
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8080
+    nodePort: 30400  # Choose any available port in the range 30000-32767
+  type: NodePort

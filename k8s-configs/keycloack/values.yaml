@@ -1,0 +1,45 @@
+# Default values for keycloack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+# Postgres account data, web server certificates, and keycloak admin user
+secrets:
+  postgres:
+    name: postgres-credentials
+    admin:
+      name: postgres
+      password: aab++112
+  keycloak:
+    name: keycloak-secrets
+    admin:
+      name: ilyes
+      password: ilyes
+
+# Postgres, Keycloak and Ingress deployments
+deployments:
+  securePort: 443
+  postgres:
+    image:
+      name: postgres:latest
+    db:
+      name: keycloak
+    service:
+      name: postgres
+      port: 5432
+    volume:
+      name: postgres-storage
+      path: /var/lib/postgresql/data
+  keycloak:
+    service:
+      name: keycloak
+    ports:
+      containerPort: 8080
+
+# PersistenVolume / PersistenVolumeClaims
+pv:
+  name: postgres-pv
+  size: 150Mi
+pvc:
+  name: postgres-pvc
+  size: 150Mi

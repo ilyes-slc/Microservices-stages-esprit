@@ -1,0 +1,10 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: jobdatatopic
+  labels:
+    strimzi.io/cluster: my-cluster
+  namespace: default
+spec:
+  partitions: 3
+  replicas: 3

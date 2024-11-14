@@ -1,0 +1,21 @@
+replicaCount: 1
+
+postgres:
+  databaseName: offres_db
+
+springApp:
+  image:
+    repository: ilyeszaidi/service-offres-app
+    pullPolicy: IfNotPresent
+    tag: 0.1.1
+
+postgresVolume:
+  persistentVolumeClaim:
+    storageSize: 200Mi  #1Gi
+
+  persistentVolume:
+    storageSize: 200Mi  #1Gi
+    pathOnHost: /var/lib/postgres  # Replace this with the actual path on your host machine
+
+
+  mountPath: /var/lib/postgres

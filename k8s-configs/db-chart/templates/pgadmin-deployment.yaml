@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-pgadmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-pgadmin
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-pgadmin4
+          image: dpage/pgadmin4
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "admin@email.com"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "admin"
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: {{ .Release.Name }}-pgadmin-secret
+              #     key: pgadmin-default-password
+            - name: PGADMIN_PORT
+              value: "80"
+          ports:
+            - containerPort: 80
+              name: pgadminport
